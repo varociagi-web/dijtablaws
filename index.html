@@ -114,24 +114,30 @@
     z-index: 100;
   }
   .print-btn:hover { background: #b06820; }
-
-      @media print {
-    body { background: white !important; margin: 0 !important; padding: 0 !important; font-size: 12px !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+  @media print {
+    body {
+      background: white !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
     .print-btn { display: none !important; }
     .page {
       width: 210mm !important;
-      min-height: unset !important;
+      min-height: 297mm !important;
       height: auto !important;
       padding: 13mm 15mm !important;
       margin: 0 !important;
       box-shadow: none !important;
-      overflow: visible !important;
+      background: white !important;
       break-after: page;
       page-break-after: always;
     }
     .page:last-of-type {
-      break-after: auto !important;
-      page-break-after: auto !important;
+      break-after: avoid !important;
+      page-break-after: avoid !important;
+      min-height: unset !important;
     }
     .section, .subsection {
       break-inside: avoid;
@@ -528,10 +534,11 @@ p
   </div>
 
   <div class="doc-footer">
-    <span>SukorADÓ · sukorado-konyveles.hu · sukorado@sukorado.hu · +36 30 493 3303</span>
+    <span>SukorADÓ · sukorado-konyveles.hu · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e695938d8994878289a695938d8994878289c88e93">[email&#160;protected]</a> · +36 30 493 3303</span>
     <span>3 / 3</span>
   </div>
 </div>
+
 
 <button class="print-btn" onclick="window.print()" title="PDF mentés / Nyomtatás">
   🖨️ Mentés PDF-ként
