@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SukorADÓ – Webshop Díjtáblázat – Gazdasági Társaság</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --accent: #c8782a;
+    --accent-light: #f5ede0;
+    --text: #2d2a26;
+    --text-muted: #7a7268;
+    --text-dim: #b0a89e;
+    --border: #e0dbd4;
+    --bg: #f5f4f2;
+    --green: #2e6b44;
+    --green-bg: #f0faf4;
+    --green-border: #5a9e6e;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); font-family: 'DM Sans', sans-serif; color: var(--text); font-size: 12px; line-height: 1.5; }
+
+  .page { width: 210mm; min-height: 297mm; margin: 0 auto; background: white; padding: 13mm 15mm; position: relative; }
+
+  .doc-header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 10px; margin-bottom: 14px; border-bottom: 2.5px solid var(--accent); }
+  .brand { display: flex; align-items: center; gap: 10px; }
+  .brand-mark { width: 36px; height: 36px; background: var(--accent); border-radius: 7px; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; flex-shrink: 0; }
+  .brand-name { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: var(--text); line-height: 1.1; }
+  .brand-sub { font-size: 9px; color: var(--text-muted); letter-spacing: 1.2px; text-transform: uppercase; margin-top: 2px; }
+  .doc-meta { text-align: right; font-size: 10px; color: var(--text-muted); line-height: 1.8; }
+  .doc-meta strong { color: var(--text); display: block; font-size: 11px; }
+
+  .title-block { margin-bottom: 14px; }
+  .doc-type { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 3px; }
+  .doc-title { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--text); line-height: 1.2; margin-bottom: 3px; }
+  .doc-subtitle { font-size: 11px; color: var(--text-muted); }
+
+  .section { margin-bottom: 13px; }
+  .section-header { display: flex; align-items: center; gap: 7px; margin-bottom: 6px; padding-bottom: 5px; border-bottom: 1.5px solid var(--accent); }
+  .section-num { width: 20px; height: 20px; background: var(--accent); border-radius: 50%; color: white; font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: var(--text); }
+
+  .subsection { margin-bottom: 7px; }
+  .subsection-title { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 3px; padding-left: 2px; }
+  .note { font-size: 10px; color: var(--text-muted); font-style: italic; margin-top: 3px; padding-left: 2px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  thead tr { background: var(--text); }
+  thead th { color: white; font-weight: 600; font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px; padding: 5px 8px; text-align: left; }
+  thead th:last-child { text-align: right; }
+  tbody tr { border-bottom: 1px solid var(--border); }
+  tbody tr:nth-child(even) { background: #faf9f7; }
+  tbody tr:last-child { border-bottom: none; }
+  tbody td { padding: 5px 8px; color: var(--text); vertical-align: middle; }
+  tbody td:last-child { text-align: right; font-weight: 600; color: var(--accent); white-space: nowrap; }
+  td.included { color: var(--green) !important; font-weight: 500 !important; }
+  td.gray { color: var(--text-muted) !important; font-weight: 400 !important; }
+  td.new { background: #fdf5ee !important; }
+
+  .includes-box { background: var(--accent-light); border: 1px solid rgba(200,120,42,0.25); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 9px 12px; }
+  .includes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 14px; }
+  .includes-item { display: flex; align-items: flex-start; gap: 5px; font-size: 11px; color: var(--text); padding: 2px 0; }
+  .includes-item::before { content: "✓"; color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+  .includes-note { margin-top: 6px; font-size: 10px; color: var(--text-muted); font-style: italic; padding-left: 2px; border-top: 1px solid rgba(200,120,42,0.2); padding-top: 5px; }
+
+  .zaras-box { background: #fffbf2; border: 1.5px solid #e6a830; border-radius: 6px; padding: 8px 12px; }
+  .zaras-row { display: flex; justify-content: space-between; align-items: baseline; padding: 3px 0; border-bottom: 1px solid #f5e8c0; font-size: 11px; }
+  .zaras-row:last-child { border-bottom: none; }
+  .zaras-row .lbl { color: var(--text); }
+  .zaras-row .val { color: #b07a10; font-weight: 600; white-space: nowrap; margin-left: 10px; }
+
+  .ked-box { background: var(--green-bg); border: 1.5px solid var(--green-border); border-radius: 6px; overflow: hidden; }
+  .ked-box-header { background: #e6f5ec; padding: 5px 10px; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--green); border-bottom: 1px solid #c2e0cc; }
+  .ked-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .ked-table td { padding: 5px 10px; border-bottom: 1px solid #d0ead9; color: var(--text); }
+  .ked-table td:last-child { text-align: right; font-weight: 600; color: var(--green); }
+  .ked-table tr:last-child td { border-bottom: none; }
+  .ked-note { font-size: 9px; color: var(--green); padding: 4px 10px 5px; background: #e6f5ec; border-top: 1px solid #c2e0cc; font-style: italic; }
+
+  .info-box { background: #faf9f7; border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; font-size: 11px; color: var(--text-muted); line-height: 1.75; }
+  .info-box strong { color: var(--text); }
+  .info-box p { margin-bottom: 2px; }
+  .info-box p:last-child { margin-bottom: 0; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+
+  .doc-footer { margin-top: 14px; padding-top: 7px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: var(--text-dim); }
+
+  /* Nyomtatás gomb */
+  .print-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #c8782a;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 16px rgba(200,120,42,0.35);
+    transition: background 0.15s;
+    z-index: 100;
+  }
+  .print-btn:hover { background: #b06820; }
+
+  @media print {
+    body { background: white !important; margin: 0; padding: 0; }
+    .print-btn { display: none !important; }
+    .page {
+      width: 210mm;
+      min-height: 297mm;
+      padding: 13mm 15mm;
+      margin: 0;
+      box-shadow: none !important;
+      page-break-after: always;
+    }
+    .page:last-of-type { page-break-after: avoid; }
+    @page { margin: 0; size: A4; }
+  }
+  @media screen {
+    body { padding: 20px 0 60px; }
+    .page { box-shadow: 0 4px 32px rgba(0,0,0,0.10); margin-bottom: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ OLDAL 1 ═══ -->
+<div class="page">
+  <div class="doc-header">
+    <div class="brand">
+      <div class="brand-mark">SA</div>
+      <div>
+        <div class="brand-name">SukorADÓ</div>
+        <div class="brand-sub">Könyvelés · Adótanácsadás</div>
+      </div>
+    </div>
+    <div class="doc-meta">
+      <strong>Díjtáblázat</strong>
+      Érvényes: 2026. január 1-től<br>
+      SukorADÓ ÁSZ Kft. · Adószám: 32079915-2-07<br>
+      8096 Sukoró, Körmös utca 79.<br>
+      sukorado-konyveles.hu · +36 30 493 3303
+    </div>
+  </div>
+
+  <div class="title-block">
+    <div class="doc-type">Díjtáblázat</div>
+    <div class="doc-title">Webshop könyvelési szolgáltatás</div>
+    <div class="doc-subtitle">Gazdasági társaságok részére &nbsp;·&nbsp; A feltüntetett árak nettó árak, 27% ÁFÁ-t nem tartalmaznak.</div>
+  </div>
+
+  <!-- 1. ALAPDÍJ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">Webshop alapdíj</div>
+    </div>
+    <div class="two-col">
+      <div class="subsection">
+        <div class="subsection-title">1/a. Alapdíj rendelési volumen szerint</div>
+        <table>
+          <thead><tr><th>Havi rendelésszám</th><th>Alapdíj (nettó/hó)</th></tr></thead>
+          <tbody>
+            <tr><td>0–300 rendelés</td><td>75 000 Ft</td></tr>
+            <tr><td>301–500 rendelés</td><td>95 000 Ft</td></tr>
+            <tr><td>501–800 rendelés</td><td>115 000 Ft</td></tr>
+            <tr><td>801–1 500 rendelés</td><td>130 000 Ft</td></tr>
+            <tr><td>1 501–3 000 rendelés</td><td>170 000 Ft</td></tr>
+            <tr><td>3 000+ rendelés</td><td class="included">Egyedi ajánlat</td></tr>
+          </tbody>
+        </table>
+        <p class="note">A rendelésszám a tárgyhónapban teljesített és kiállított vevői számlák darabszámát jelenti.</p>
+      </div>
+      <div class="subsection">
+        <div class="subsection-title">1/b. Forgalmi kockázati felár</div>
+        <table>
+          <thead><tr><th>Éves webshop árbevétel</th><th>Havi felár</th></tr></thead>
+          <tbody>
+            <tr><td>0–150 millió Ft</td><td class="gray">–</td></tr>
+            <tr><td>150–400 millió Ft</td><td>+15 000 Ft</td></tr>
+            <tr><td>400–800 millió Ft</td><td>+30 000 Ft</td></tr>
+            <tr><td>800 millió – 1,5 milliárd Ft</td><td>+50 000 Ft</td></tr>
+            <tr><td>1,5 milliárd – 2 milliárd Ft</td><td>+70 000 Ft</td></tr>
+            <tr><td>2 milliárd Ft felett</td><td class="included">Egyedi</td></tr>
+          </tbody>
+        </table>
+        <p class="note">Tartós sávváltozás esetén a díjkorrekció a tárgynegyedévet követő hónapban történik.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. MIT TARTALMAZ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">Mit tartalmaz az alapdíj?</div>
+    </div>
+    <div class="includes-box">
+      <div class="includes-grid">
+        <div class="includes-item">Teljes körű kettős könyvvitel</div>
+        <div class="includes-item">Elektronikus képviselet (NAV, TB, Önkormányzat, Cégkapu)</div>
+        <div class="includes-item">B2C és B2B számlák könyvelése</div>
+        <div class="includes-item">EDITH dokumentumtár hozzáférés és használat</div>
+        <div class="includes-item">Banki egyeztetések</div>
+        <div class="includes-item">VIKI pénzügyi kimutatási rendszer</div>
+        <div class="includes-item">Fizetési szolgáltatók riportjainak feldolgozása</div>
+        <div class="includes-item">Kapusegéd ügyfélportál hozzáférés</div>
+        <div class="includes-item">1 HUF bankszámla elszámolása</div>
+        <div class="includes-item">1 bankkártya-elszámoló feldolgozása</div>
+        <div class="includes-item">1 futárszolgálat utánvétes elszámolással</div>
+        <div class="includes-item">Újonnan alakuló cég esetén az alakulással járó feladatok</div>
+      </div>
+      <p class="includes-note">⚠ Az ÁFA bevallás, A60-as összesítő, NAV adónem-átvezetés, bérszámfejtés és minden egyéb rendszeres, illetve eseti feladat az alapdíjon <strong>felül</strong> kerül számlázásra – lásd 4–7. pont.</p>
+    </div>
+  </div>
+
+  <!-- 3. KOMPLEXITÁSI -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">Komplexitási felárak</div>
+    </div>
+    <div class="three-col">
+      <div class="subsection">
+        <div class="subsection-title">3/a. Bankszámlák</div>
+        <table>
+          <thead><tr><th>Tétel</th><th>Díj</th></tr></thead>
+          <tbody>
+            <tr><td>1. HUF bankszámla</td><td class="included">Alapdíj</td></tr>
+            <tr><td>2. HUF bankszámla és tovább</td><td>+10 000 Ft/db</td></tr>
+            <tr><td>Devizás bankszámla</td><td>+15 000 Ft/deviza</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="subsection">
+        <div class="subsection-title">3/b. Fizetési szolgáltatók</div>
+        <table>
+          <thead><tr><th>Tétel</th><th>Díj</th></tr></thead>
+          <tbody>
+            <tr><td>1. bankkártya-elszámoló</td><td class="included">Alapdíj</td></tr>
+            <tr><td>További bankkártya-elszámoló</td><td>+15 000 Ft/db</td></tr>
+            <tr><td>1 futárszolgálat utánvéttel</td><td class="included">Alapdíj</td></tr>
+            <tr><td>További futárszolgálat</td><td>+10 000 Ft/futár</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="subsection">
+        <div class="subsection-title">3/c. Marketplace</div>
+        <table>
+          <thead><tr><th>Tétel</th><th>Díj</th></tr></thead>
+          <tbody>
+            <tr><td>1. platform (Amazon, eMAG stb.)</td><td>+20 000 Ft</td></tr>
+            <tr><td>Minden további platform</td><td>+15 000 Ft/db</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="subsection" style="margin-top:6px">
+      <div class="subsection-title">3/d. Nemzetközi ügyletek</div>
+      <div class="two-col">
+        <table>
+          <thead><tr><th>Tétel</th><th>Díj</th></tr></thead>
+          <tbody>
+            <tr><td>EU-s beszerzések rendszeres könyvelése</td><td>+15 000 Ft</td></tr>
+            <tr><td>EU-s értékesítés (OSS rendszer)</td><td>+25 000 Ft</td></tr>
+          </tbody>
+        </table>
+        <table>
+          <thead><tr><th>Tétel</th><th>Díj</th></tr></thead>
+          <tbody>
+            <tr><td>Harmadik országból történő beszerzés</td><td>+20 000 Ft</td></tr>
+            <tr><td>Devizás értékesítés</td><td>+15 000 Ft</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <span>SukorADÓ · sukorado-konyveles.hu · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="780b0d13170a191c17380b0d13170a191c1756100d">[email&#160;protected]</a> · +36 30 493 3303</span>
+    <span>1 / 3</span>
+  </div>
+</div>
+
+<!-- ═══ OLDAL 2 ═══ -->
+<div class="page">
+  <div class="doc-header">
+    <div class="brand">
+      <div class="brand-mark">SA</div>
+      <div>
+        <div class="brand-name">SukorADÓ</div>
+        <div class="brand-sub">Webshop díjtáblázat · Gazdasági társaság · 2026</div>
+      </div>
+    </div>
+    <div class="doc-meta">Érvényes: 2026. január 1-től</div>
+  </div>
+
+  <!-- 4. RENDSZERES FELADATOK -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">Rendszeres feladatok</div>
+    </div>
+    <div class="two-col">
+      <div class="subsection">
+        <div class="subsection-title">4/a. Adóbevallások</div>
+        <table>
+          <thead><tr><th>Szolgáltatás</th><th>Díj</th></tr></thead>
+          <tbody>
+            <tr><td>ÁFA bevallás elkészítése (gyakorisága: havi / negyedéves)</td><td>5 000 Ft</td></tr>
+            <tr><td>A60-as összesítő (ÁFA gyakorisággal egyező)</td><td>2 000 Ft</td></tr>
+            <tr><td>NAV összevont adónem-átvezetés (havi egyszeri utaláshoz)</td><td>3 000 Ft/alkalom</td></tr>
+            <tr><td>KIVA előleg bevallás (negyedévenként)</td><td>5 000 Ft/negyed.</td></tr>
+            <tr><td>Turizmusfejlesztési hozzájárulás bevallása</td><td>5 000 Ft</td></tr>
+            <tr><td>Reprezentációs költségek bevallása</td><td>10 000 Ft</td></tr>
+            <tr><td>NÉBIH bevallás (éves)</td><td>10 000 Ft</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="subsection">
+        <div class="subsection-title">4/b. Egyéb rendszeres feladatok</div>
+        <table>
+          <thead><tr><th>Szolgáltatás</th><th>Díj</th></tr></thead>
+          <tbody>
+            <tr><td>KSH jelentés elkészítése</td><td>10 000 Ft/alkalom</td></tr>
+            <tr><td>Cégautóadó bevallás (negyedéves)</td><td>5 000 Ft/autó/negyed.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. BÉRSZÁMFEJTÉS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">Bérszámfejtés</div>
+    </div>
+    <div class="two-col">
+      <div class="subsection">
+        <div class="subsection-title">5/a. Havi bérszámfejtés</div>
+        <table>
+          <thead><tr><th>Kategória</th><th>Díj</th></tr></thead>
+          <tbody>
+            <tr><td>Egyszerű havibéres / egyszerűsített fogl. (1–5 fő)</td><td>6 000 Ft/fő/hó</td></tr>
+            <tr><td>Egyszerű havibéres / egyszerűsített fogl. (6–20 fő)</td><td>5 000 Ft/fő/hó</td></tr>
+            <tr><td>Egyszerű havibéres / egyszerűsített fogl. (21 fő+)</td><td>3 500 Ft/fő/hó</td></tr>
+            <tr><td>1 letiltás / pótlék / munkaidőkeret / túlóra</td><td>6 000 Ft/fő/hó</td></tr>
+            <tr><td>Több letiltás / komplex bérszámfejtés</td><td>7 500 Ft/fő/hó</td></tr>
+            <tr><td>Jövedelem nélküli / passzív tag</td><td>2 000 Ft/fő/hó</td></tr>
+            <tr><td>Magánszemélytől bérelt ingatlan</td><td>5 000 Ft/fő/hó</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="subsection">
+        <div class="subsection-title">5/b. Eseti bérügyek</div>
+        <table>
+          <thead><tr><th>Szolgáltatás</th><th>Díj</th></tr></thead>
+          <tbody>
+            <tr><td>Munkavállaló bejelentése (előző munkanap 12 óráig)</td><td>4 000 Ft/fő</td></tr>
+            <tr><td>Munkavállaló bejelentése (előző munkanap 12 óra után)</td><td>5 500 Ft/fő</td></tr>
+            <tr><td>Egyszerűsített fogl. bejelentése (12 óráig)</td><td>500 Ft/fő/alkalom</td></tr>
+            <tr><td>Egyszerűsített fogl. bejelentése (12 óra után)</td><td>1 500 Ft/fő/alkalom</td></tr>
+            <tr><td>Leszámoltatás, biztosított kijelentése</td><td>4 000 Ft/fő</td></tr>
+            <tr><td>Munkaszerződés elkészítése</td><td>3 000 Ft/fő</td></tr>
+            <tr><td>Letiltás nyilvántartásba vétele</td><td>4 000 Ft/alkalom</td></tr>
+            <tr><td>Táppénz igénylés (igénylés kezdetekor)</td><td>5 000 Ft</td></tr>
+            <tr><td>Táppénz igénylés (folyamatban lévő)</td><td>2 000 Ft</td></tr>
+            <tr><td>Munkáltatói igazolás</td><td>1 000 Ft/alkalom</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. ÉVES ZÁRÁS -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div class="section-title">Éves zárással kapcsolatos feladatok</div>
+    </div>
+    <div class="zaras-box">
+      <div class="zaras-row">
+        <span class="lbl">Éves zárás (TAO/KIVA elszámolás és HIPA bevallással együtt)</span>
+        <span class="val">1 havi aktuális alapdíj</span>
+      </div>
+      <div class="zaras-row">
+        <span class="lbl">Éves beszámoló könyvvizsgálati kötelezettség esetén</span>
+        <span class="val">1,5 havi aktuális alapdíj</span>
+      </div>
+      <div class="zaras-row">
+        <span class="lbl">Közbenső mérleg készítés</span>
+        <span class="val">1 havi aktuális alapdíj</span>
+      </div>
+    </div>
+    <p class="note">Az éves zárás díja a havi alapdíjban nem szerepel, évente egyszer kerül számlázásra.</p>
+  </div>
+
+  <div class="doc-footer">
+    <span>SukorADÓ · sukorado-konyveles.hu · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2f5c5a44405d4e4b406f5c5a44405d4e4b4001475a">[email&#160;protected]</a> · +36 30 493 3303</span>
+    <span>2 / 3</span>
+  </div>
+</div>
+
+<!-- ═══ OLDAL 3 ═══ -->
+<div class="page">
+  <div class="doc-header">
+    <div class="brand">
+      <div class="brand-mark">SA</div>
+      <div>
+        <div class="brand-name">SukorADÓ</div>
+        <div class="brand-sub">Webshop díjtáblázat · Gazdasági társaság · 2026</div>
+      </div>
+    </div>
+    <div class="doc-meta">Érvényes: 2026. január 1-től</div>
+  </div>
+
+  <!-- 7. ESETI FELADATOK -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <div class="section-title">Eseti feladatok</div>
+    </div>
+    <div class="two-col">
+      <div class="subsection">
+        <div class="subsection-title">7/a. Adóügyek és hatósági ügyintézés</div>
+        <table>
+          <thead><tr><th>Szolgáltatás</th><th>Díj</th></tr></thead>
+          <tbody>
+            <tr><td>Adótanácsadás</td><td>20 000 Ft/óra</td></tr>
+            <tr><td>Önellenőrzés elkészítése (ügyfél hibájából)</td><td>15 000 Ft</td></tr>
+            <tr><td>Nullás vagy egyéb igazolás igénylése (IGAZOL)</td><td>4 000 Ft</td></tr>
+            <tr><td>Részletfizetés igénylése (nem automatikus)</td><td>10 000 Ft</td></tr>
+            <tr><td>Automatikus részletfizetés igénylése</td><td>4 000 Ft</td></tr>
+            <tr><td>Számviteli szabályzatok elkészítése</td><td>30 000 Ft</td></tr>
+            <tr><td>Iparűzési adó bejelentkezés / változásbejelentés</td><td>5 000 Ft</td></tr>
+            <tr><td>Egyéb helyi adó ügyintézés (építményadó, telekadó)</td><td>7 000 Ft</td></tr>
+            <tr><td>SZJA bevallás tagok / munkavállalók részére</td><td>5 000–15 000 Ft</td></tr>
+            <tr><td>Rehabilitációs hozzájárulás bevallása (éves)</td><td>5 000 Ft</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="subsection">
+        <div class="subsection-title">7/b. Adminisztráció és egyéb</div>
+        <table>
+          <thead><tr><th>Szolgáltatás</th><th>Díj</th></tr></thead>
+          <tbody>
+            <tr><td>Adatváltozás bejelentés (T101/T201)</td><td>2 000 Ft</td></tr>
+            <tr><td>Társasági szerződés módosításhoz adatszolgáltatás</td><td>5 000 Ft</td></tr>
+            <tr><td>Pénztárgép ügyintézés</td><td>5 000 Ft/alkalom</td></tr>
+            <tr><td>Működési engedély / önkormányzati bejelentés</td><td>15 000 Ft/alkalom</td></tr>
+            <tr><td>Munkaügyi támogatás igénylése</td><td>15 000 Ft/alkalom</td></tr>
+            <tr><td>Munkaügyi támogatás havi elszámolása</td><td>2 000 Ft/fő/hó</td></tr>
+            <tr><td>Hitelhez, pályázathoz adatszolgáltatás</td><td>15 000 Ft</td></tr>
+          </tbody>
+        </table>
+        <p class="note">A fenti listában nem szereplő feladatok díja egyedi elbírálás alapján kerül meghatározásra, amelyről előzetesen tájékoztatjuk az ügyfelet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. KEDVEZMÉNYEK -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">8</div>
+      <div class="section-title">Kedvezmények</div>
+    </div>
+    <div class="ked-box">
+      <div class="ked-box-header">🎁 Összevonható kedvezmények – az alapdíjból számítva</div>
+      <table class="ked-table">
+        <tbody>
+          <tr>
+            <td>Számlák / dokumentumok határidőre, hiánytalanul feltöltve az EDITH rendszerbe</td>
+            <td>–10% alapdíj</td>
+          </tr>
+          <tr>
+            <td>Határidőben történő díjfizetés</td>
+            <td>–5% alapdíj</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="ked-note">A kedvezmények összevonhatók és egymással párhuzamosan alkalmazhatók.</div>
+    </div>
+  </div>
+
+  <!-- 9. FIZETÉSI FELTÉTELEK -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">9</div>
+      <div class="section-title">Fizetési és szerződéskötési feltételek</div>
+    </div>
+    <div class="info-box">
+      <p>· Az <strong>alapdíj és a bérszámfejtés</strong> díja havonta kerül kiszámlázásra, a tárgyidőszak utolsó napján esedékes.</p>
+      <p>· Az egyéb szolgáltatások díjai és a kedvezmények elszámolása a <strong>tárgynegyedévet követő hónapban</strong> történik.</p>
+      <p>· A könyvelési szolgáltatás igénybevételéhez <strong>írásos megbízási szerződés</strong> szükséges. Hóközbeni kezdés esetén is a <strong>teljes havi alapdíj</strong> kerül számlázásra.</p>
+      <p>· A könyvelőiroda <strong>felelősségbiztosítással</strong> rendelkezik ügyfeleink védelmére a könyvelési hibákból vagy mulasztásokból eredő károk esetén.</p>
+      <p>· A feltüntetett árak minden esetben <strong>nettó árak</strong>, 27% ÁFÁ-t nem tartalmaznak.</p>
+    </div>
+  </div>
+
+  <!-- 10. SÁVKORREKCIÓ -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-num">10</div>
+      <div class="section-title">Éves sávkorrekció</div>
+    </div>
+    <div class="info-box">
+      <p>Az éves zárást követően a végleges éves árbevétel és a tárgyévi kiállított vevői számlák számának ismeretében meghatározzuk a tényleges éves átlagot, és visszaosztjuk havi szintre. <strong>Amelyik sávba a havi átlag esik, arra korrigáljuk vissza a díjat</strong>, és az így keletkező különbözetet – az ügyfél javára vagy terhére – az éves zárással egy időben elszámoljuk.</p>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <span>SukorADÓ · sukorado-konyveles.hu · sukorado@sukorado.hu · +36 30 493 3303</span>
+    <span>3 / 3</span>
+  </div>
+</div>
+
+
+<button class="print-btn" onclick="window.print()" title="PDF mentés / Nyomtatás">
+  🖨️ Mentés PDF-ként
+</button>
+</body>
+</html>
