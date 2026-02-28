@@ -56,6 +56,10 @@
   tbody td:last-child { text-align: right; font-weight: 600; color: var(--accent); white-space: nowrap; }
   td.included { color: var(--green) !important; font-weight: 500 !important; }
   td.gray { color: var(--text-muted) !important; font-weight: 400 !important; }
+  /* 4 oszlopos táblázat – Nemzetközi ügyletek */
+  table.four-col td:nth-child(2),
+  table.four-col td:nth-child(4) { text-align: right; font-weight: 600; color: var(--accent); white-space: nowrap; width: 90px; }
+  table.four-col td:nth-child(3) { padding-left: 14px; border-left: 1px solid var(--border); }
   td.new { background: #fdf5ee !important; }
 
   .includes-box { background: var(--accent-light); border: 1px solid rgba(200,120,42,0.25); border-left: 3px solid var(--accent); border-radius: 0 6px 6px 0; padding: 9px 12px; }
@@ -128,7 +132,7 @@
       break-after: auto !important;
       page-break-after: auto !important;
     }
-    .section {
+    .section, .subsection {
       break-inside: avoid;
       page-break-inside: avoid;
     }
@@ -279,22 +283,12 @@
     </div>
     <div class="subsection" style="margin-top:6px">
       <div class="subsection-title">3/d. Nemzetközi ügyletek</div>
-      <div class="two-col">
-        <table>
-          <thead><tr><th>Tétel</th><th>Díj</th></tr></thead>
-          <tbody>
-            <tr><td>EU-s beszerzések rendszeres könyvelése</td><td>+15 000 Ft</td></tr>
-            <tr><td>EU-s értékesítés (OSS rendszer)</td><td>+25 000 Ft</td></tr>
-          </tbody>
-        </table>
-        <table>
-          <thead><tr><th>Tétel</th><th>Díj</th></tr></thead>
-          <tbody>
-            <tr><td>Harmadik országból történő beszerzés</td><td>+20 000 Ft</td></tr>
-            <tr><td>Devizás értékesítés</td><td>+15 000 Ft</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <table class="four-col">
+        <tbody>
+          <tr><td>EU-s beszerzések rendszeres könyvelése</td><td>+15 000 Ft</td><td>Harmadik országból történő beszerzés</td><td>+20 000 Ft</td></tr>
+          <tr><td>EU-s értékesítés (OSS rendszer)</td><td>+25 000 Ft</td><td>Devizás értékesítés</td><td>+15 000 Ft</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
