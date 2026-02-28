@@ -111,19 +111,18 @@
   }
   .print-btn:hover { background: #b06820; }
 
-  @media print {
-    body { background: white !important; margin: 0 !important; padding: 0 !important; }
+    @media print {
+    body { background: white !important; margin: 0 !important; padding: 0 !important; font-size: 12px !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
     .print-btn { display: none !important; }
     .page {
-      width: 100% !important;
-      min-height: unset !important;
-      height: auto !important;
+      width: 210mm !important;
+      height: 297mm !important;
       padding: 13mm 15mm !important;
       margin: 0 !important;
       box-shadow: none !important;
+      overflow: hidden;
       break-after: page;
       page-break-after: always;
-      display: block;
     }
     .page:last-of-type {
       break-after: auto !important;
@@ -303,7 +302,7 @@
 p
 
   <div class="doc-footer">
-    <span>SukorADÓ · sukorado-konyveles.hu · sukorado@sukorado.hu · +36 30 493 3303</span>
+    <span>SukorADÓ · sukorado-konyveles.hu · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b9caccd2d6cbd8ddd6f9caccd2d6cbd8ddd697d1cc">[email&#160;protected]</a> · +36 30 493 3303</span>
     <span>1 / 3</span>
   </div>
 </div>
@@ -422,7 +421,7 @@ p
   </div>
 
   <div class="doc-footer">
-    <span>SukorADÓ · sukorado-konyveles.hu · sukorado@sukorado.hu · +36 30 493 3303</span>
+    <span>SukorADÓ · sukorado-konyveles.hu · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="7704021c18051613183704021c1805161318591f02">[email&#160;protected]</a> · +36 30 493 3303</span>
     <span>2 / 3</span>
   </div>
 </div>
@@ -529,13 +528,4 @@ p
       <div class="section-title">Éves sávkorrekció</div>
     </div>
     <div class="info-box">
-      <p>Az éves zárást követően a végleges éves árbevétel és a tárgyévi kiállított vevői számlák számának ismeretében meghatározzuk a tényleges éves átlagot, és visszaosztjuk havi szintre. <strong>Amelyik sávba a havi átlag esik, arra korrigáljuk vissza a díjat</strong>, és az így keletkező különbözetet – az ügyfél javára vagy terhére – az éves zárással egy időben elszámoljuk.</p>
-    </div>
-  </div>
-
-  <div class="doc-footer">
-    <span>SukorADÓ · sukorado-konyveles.hu · sukorado@sukorado.hu · +36 30 493 3303</span>
-    <span>3 / 3</span>
-  </div>
-</div>
-p
+      <p>Az éves zárást követően a végleges éves árbevétel és a tárgyévi kiállított vevői számlák számának ismeretében meghatározzuk a tényleges éves átlagot, és visszaosztjuk havi szintre. <strong>Amelyik sávba a havi átlag esik, arra korrigáljuk vissza a díjat</strong>, és az így keletkező különbözetet – az ügyfél javára vagy 
