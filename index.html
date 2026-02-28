@@ -115,16 +115,17 @@
   }
   .print-btn:hover { background: #b06820; }
 
-    @media print {
+      @media print {
     body { background: white !important; margin: 0 !important; padding: 0 !important; font-size: 12px !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
     .print-btn { display: none !important; }
     .page {
       width: 210mm !important;
-      height: 297mm !important;
+      min-height: unset !important;
+      height: auto !important;
       padding: 13mm 15mm !important;
       margin: 0 !important;
       box-shadow: none !important;
-      overflow: hidden;
+      overflow: visible !important;
       break-after: page;
       page-break-after: always;
     }
@@ -522,4 +523,18 @@ p
       <div class="section-title">Éves sávkorrekció</div>
     </div>
     <div class="info-box">
-      <p>Az éves zárást követően a végleges éves árbevétel és a tárgyévi kiállított vevői számlák számának ismeretében meghatározzuk a tényleges éves átlagot, és visszaosztjuk havi szintre. <strong>Amelyik sávba a havi átlag esik, arra korrigáljuk vissza a díjat</strong>, és az így keletkező különbözetet – az ügyfél javára vagy 
+      <p>Az éves zárást követően a végleges éves árbevétel és a tárgyévi kiállított vevői számlák számának ismeretében meghatározzuk a tényleges éves átlagot, és visszaosztjuk havi szintre. <strong>Amelyik sávba a havi átlag esik, arra korrigáljuk vissza a díjat</strong>, és az így keletkező különbözetet – az ügyfél javára vagy terhére – az éves zárással egy időben elszámoljuk.</p>
+    </div>
+  </div>
+
+  <div class="doc-footer">
+    <span>SukorADÓ · sukorado-konyveles.hu · sukorado@sukorado.hu · +36 30 493 3303</span>
+    <span>3 / 3</span>
+  </div>
+</div>
+
+<button class="print-btn" onclick="window.print()" title="PDF mentés / Nyomtatás">
+  🖨️ Mentés PDF-ként
+</button>
+</body>
+</html>
