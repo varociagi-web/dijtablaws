@@ -112,18 +112,32 @@
   .print-btn:hover { background: #b06820; }
 
   @media print {
-    body { background: white !important; margin: 0; padding: 0; }
+    body { background: white !important; margin: 0 !important; padding: 0 !important; }
     .print-btn { display: none !important; }
     .page {
-      width: 210mm;
-      min-height: 297mm;
-      padding: 13mm 15mm;
-      margin: 0;
+      width: 100% !important;
+      min-height: unset !important;
+      height: auto !important;
+      padding: 13mm 15mm !important;
+      margin: 0 !important;
       box-shadow: none !important;
+      break-after: page;
       page-break-after: always;
+      display: block;
     }
-    .page:last-of-type { page-break-after: avoid; }
-    @page { margin: 0; size: A4; }
+    .page:last-of-type {
+      break-after: auto !important;
+      page-break-after: auto !important;
+    }
+    .section {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    table, .zaras-box, .ked-box, .info-box, .includes-box, .two-col, .three-col {
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+    @page { margin: 0; size: A4 portrait; }
   }
   @media screen {
     body { padding: 20px 0 60px; }
@@ -151,7 +165,7 @@
       sukorado-konyveles.hu · +36 30 493 3303
     </div>
   </div>
-
+  
   <div class="title-block">
     <div class="doc-type">Díjtáblázat</div>
     <div class="doc-title">Webshop könyvelési szolgáltatás</div>
@@ -285,12 +299,14 @@
     </div>
   </div>
 
+
+p
+
   <div class="doc-footer">
-    <span>SukorADÓ · sukorado-konyveles.hu · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="780b0d13170a191c17380b0d13170a191c1756100d">[email&#160;protected]</a> · +36 30 493 3303</span>
+    <span>SukorADÓ · sukorado-konyveles.hu · sukorado@sukorado.hu · +36 30 493 3303</span>
     <span>1 / 3</span>
   </div>
 </div>
-
 <!-- ═══ OLDAL 2 ═══ -->
 <div class="page">
   <div class="doc-header">
@@ -406,11 +422,10 @@
   </div>
 
   <div class="doc-footer">
-    <span>SukorADÓ · sukorado-konyveles.hu · <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2f5c5a44405d4e4b406f5c5a44405d4e4b4001475a">[email&#160;protected]</a> · +36 30 493 3303</span>
+    <span>SukorADÓ · sukorado-konyveles.hu · sukorado@sukorado.hu · +36 30 493 3303</span>
     <span>2 / 3</span>
   </div>
 </div>
-
 <!-- ═══ OLDAL 3 ═══ -->
 <div class="page">
   <div class="doc-header">
@@ -523,10 +538,4 @@
     <span>3 / 3</span>
   </div>
 </div>
-
-
-<button class="print-btn" onclick="window.print()" title="PDF mentés / Nyomtatás">
-  🖨️ Mentés PDF-ként
-</button>
-</body>
-</html>
+p
